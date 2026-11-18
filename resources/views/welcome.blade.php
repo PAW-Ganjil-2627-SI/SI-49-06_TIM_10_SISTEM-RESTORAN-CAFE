@@ -87,7 +87,7 @@
         <div class="brand">🍽️ Resto & Cafe System</div>
         <div class="nav-links">
             @auth
-                <a href="{{ url('/pegawai') }}" class="btn-register">Masuk ke Dashboard</a>
+                <a href="{{ route('supplier.index') }}" class="btn-register">Masuk ke Dashboard</a>
             @else
                 <a href="{{ route('login') }}" class="btn-login">Log in</a>
                 @if (Route::has('register'))
@@ -98,19 +98,19 @@
     </nav>
 
     <div class="hero">
-        <span class="badge">Modul Staff & Pegawai</span>
+        <span class="badge">Modul Manajemen Bahan Baku</span>
         <h1>Sistem Informasi Restoran & Cafe</h1>
-        <p>Platform terintegrasi untuk mengelola data staff dan pegawai restoran, mengatur jabatan, serta membatasi hak akses operasional antara Admin dan Staff secara aman.</p>
+        <p>Platform terintegrasi untuk mengelola data supplier bahan baku, memantau stok pasokan, serta mengatur hak akses operasional antara Admin dan Staff secara aman.</p>
         
         @auth
-            <a href="{{ url('/pegawai') }}" class="cta-btn">Buka Data Pegawai →</a>
+            <a href="{{ route('supplier.index') }}" class="cta-btn">Buka Data Supplier →</a>
         @else
             <a href="{{ route('login') }}" class="cta-btn">Mulai Login Sekarang →</a>
         @endauth
     </div>
 
     <footer>
-        Nama: Haikal Hadamean Siregar | NIM: 102022500237 | Kelas: SI-49-06 | Kelompok: 10
+        Nama: Nadiya Laela Shobrina | NIM: 102022500078 | Kelas: SI-4906 | Kelompok: 10 | Modul : Supplier Bahan Baku
     </footer>
 </body>
 </html>

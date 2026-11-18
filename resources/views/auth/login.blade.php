@@ -30,7 +30,7 @@
         
         .form-group { margin-bottom: 18px; }
         label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 6px; }
-        input[type="text"], input[type="password"] {
+        input[type="email"], input[type="password"] {
             width: 100%;
             padding: 11px 14px;
             border: 1.5px solid #D2C4B4;
@@ -41,14 +41,14 @@
         }
         input:focus { border-color: #81A6C6; box-shadow: 0 0 0 3px rgba(129, 166, 198, 0.2); }
         
-        .alert-error {
-            background: #F8D7DA;
-            color: #721C24;
-            padding: 10px 14px;
-            border-radius: 8px;
+        .error-msg { color: #D9534F; font-size: 12px; margin-top: 5px; }
+        .remember-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 13px;
-            margin-bottom: 18px;
-            border: 1px solid #F5C6CB;
+            color: #475569;
+            margin-bottom: 22px;
         }
         .btn-submit {
             width: 100%;
@@ -61,12 +61,11 @@
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
-            margin-top: 5px;
         }
         .btn-submit:hover { background: #6b91b2; }
-        .back-link { text-align: center; margin-top: 20px; font-size: 13px; color: #64748B; }
-        .back-link a { color: #81A6C6; font-weight: 600; text-decoration: none; }
-        .back-link a:hover { text-decoration: underline; }
+        .register-link { text-align: center; margin-top: 20px; font-size: 13px; color: #64748B; }
+        .register-link a { color: #81A6C6; font-weight: 600; text-decoration: none; }
+        .register-link a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -76,31 +75,45 @@
             <p>Login ke Sistem Informasi Restoran & Cafe</p>
         </div>
 
-        @if($errors->any())
-            <div class="alert-error">
-                {{ $errors->first() }}
+        @if (session('status'))
+            <div style="background: #D4EDDA; color: #155724; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 15px;">
+                {{ session('status') }}
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login.proses') }}">
+        <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div class="form-group">
-                <label for="username">Username</label>
-                <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus placeholder="Masukkan username">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="nama@email.com">
+                @error('email')
+                    <div class="error-msg">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
                 <input id="password" type="password" name="password" required placeholder="••••••••">
+                @error('password')
+                    <div class="error-msg">{{ $message }}</div>
+                @enderror
             </div>
 
-            <button type="submit" class="btn-submit">Masuk</button>
+            <div class="remember-row">
+                <label style="display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 400; cursor: pointer;">
+                    <input type="checkbox" name="remember"> Ingat saya
+                </label>
+            </div>
+
+            <button type="submit" class="btn-submit">Masuk (Log In)</button>
         </form>
 
-        <div class="back-link">
-            <a href="{{ route('pegawai.index') }}"></a>
-        </div>
+        @if (Route::has('register'))
+            <div class="register-link">
+                Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
+            </div>
+        @endif
     </div>
 </body>
 </html>
