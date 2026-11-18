@@ -1,106 +1,310 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem Informasi Restoran & Cafe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>Login - Rasa Kita</title>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
         body {
-            background: linear-gradient(135deg, #F3E3D0 0%, #AACDDC 100%);
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 20px;
+            align-items: center;
+            padding: 25px;
+
+            background:
+                radial-gradient(circle at 10% 10%, #E2EDF1, transparent 35%),
+                radial-gradient(circle at 90% 90%, #E9DCCB, transparent 35%),
+                #F8F4ED;
+
+            color: #394650;
         }
-        .login-card {
-            background: #ffffff;
+
+        /* LOGIN CARD */
+
+        .card {
+            position: relative;
+            overflow: hidden;
+
+            background: #FFFCF7;
+            padding: 42px 35px;
+
+            border: 1px solid #E8DFD2;
+            border-radius: 23px;
+
+            box-shadow: 0 15px 45px rgba(57, 70, 80, 0.09);
+
             width: 100%;
-            max-width: 420px;
-            padding: 40px 35px;
-            border-radius: 18px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            border: 1px solid #D2C4B4;
+            max-width: 410px;
         }
-        .header { text-align: center; margin-bottom: 28px; }
-        .header h2 { font-size: 22px; font-weight: 700; color: #1E293B; }
-        .header p { font-size: 13px; color: #64748B; margin-top: 5px; }
-        
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 6px; }
-        input[type="text"], input[type="password"] {
+
+        .card::before {
+            content: "";
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
             width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid #D2C4B4;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            transition: 0.2s;
+            height: 6px;
+
+            background: linear-gradient(
+                90deg,
+                #789BB8,
+                #B9D1DD,
+                #E4D2BD
+            );
         }
-        input:focus { border-color: #81A6C6; box-shadow: 0 0 0 3px rgba(129, 166, 198, 0.2); }
-        
-        .alert-error {
-            background: #F8D7DA;
-            color: #721C24;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 18px;
-            border: 1px solid #F5C6CB;
-        }
-        .btn-submit {
-            width: 100%;
-            background: #81A6C6;
+
+        /* LOGO */
+
+        .brand-icon {
+            width: 62px;
+            height: 62px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #789BB8;
             color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 5px;
+
+            border-radius: 19px;
+
+            font-size: 22px;
+            font-weight: 800;
+
+            box-shadow: 0 7px 18px rgba(120, 155, 184, .25);
         }
-        .btn-submit:hover { background: #6b91b2; }
-        .back-link { text-align: center; margin-top: 20px; font-size: 13px; color: #64748B; }
-        .back-link a { color: #81A6C6; font-weight: 600; text-decoration: none; }
-        .back-link a:hover { text-decoration: underline; }
+
+        .brand-title {
+            font-size: 28px;
+            font-weight: 800;
+
+            color: #394650;
+            text-align: center;
+
+            letter-spacing: -.8px;
+            margin-bottom: 7px;
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: #85847D;
+
+            text-align: center;
+            line-height: 1.7;
+
+            margin-bottom: 32px;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            color: #52616C;
+            margin-bottom: 9px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+
+            border: 1px solid #E4DDD3;
+            border-radius: 11px;
+
+            background: #FFFFFF;
+            color: #394650;
+
+            font-size: 13px;
+            outline: none;
+
+            transition: .25s;
+        }
+
+        .form-group input::placeholder {
+            color: #B0AEA7;
+        }
+
+        .form-group input:focus {
+            border-color: #789BB8;
+            box-shadow: 0 0 0 3px rgba(120, 155, 184, .15);
+        }
+
+        /* BUTTON */
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+
+            margin-top: 8px;
+
+            background: #789BB8;
+            color: white;
+
+            border: none;
+            border-radius: 30px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .btn:hover {
+            background: #587D9B;
+            transform: translateY(-2px);
+
+            box-shadow: 0 7px 18px rgba(88, 125, 155, .2);
+        }
+
+        /* ERROR */
+
+        .error {
+            background: #F7E7E2;
+            color: #963E32;
+
+            border: 1px solid #EED2CA;
+            padding: 12px 14px;
+
+            border-radius: 10px;
+            font-size: 13px;
+
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        /* BACK LINK */
+
+        .back-link {
+            display: block;
+
+            text-align: center;
+            margin-top: 25px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            color: #789BB8;
+            text-decoration: none;
+
+            transition: .2s;
+        }
+
+        .back-link:hover {
+            color: #394650;
+        }
+
+        /* FOOTER */
+
+        .login-footer {
+            margin-top: 28px;
+            padding-top: 20px;
+
+            border-top: 1px solid #EEE6DB;
+
+            text-align: center;
+
+            color: #A09B91;
+            font-size: 11px;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 38px 24px;
+            }
+
+            .brand-title {
+                font-size: 25px;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <div class="login-card">
-        <div class="header">
-            <h2>Selamat Datang 👋</h2>
-            <p>Login ke Sistem Informasi Restoran & Cafe</p>
+
+    <div class="card">
+
+        <div class="brand-icon">RK</div>
+
+        <div class="brand-title">Rasa Kita</div>
+
+        <div class="brand-subtitle">
+            Selamat datang kembali!<br>
+            Silakan masuk untuk mengelola kantin.
         </div>
 
         @if($errors->any())
-            <div class="alert-error">
+            <div class="error">
                 {{ $errors->first() }}
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login.proses') }}">
+        <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div class="form-group">
-                <label for="username">Username</label>
-                <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus placeholder="Masukkan username">
+                <label for="email">Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="nama@email.com"
+                    required
+                    autofocus
+                >
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" type="password" name="password" required placeholder="••••••••">
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Masukkan password"
+                    required
+                >
             </div>
 
-            <button type="submit" class="btn-submit">Masuk</button>
+            <button type="submit" class="btn">
+                Masuk ke Dashboard
+            </button>
+
         </form>
 
-        <div class="back-link">
-            <a href="{{ route('pegawai.index') }}"></a>
+        <a href="{{ route('beranda') }}" class="back-link">
+            ← Kembali ke Beranda
+        </a>
+
+        <div class="login-footer">
+            © {{ date('Y') }} Rasa Kita. All rights reserved.
         </div>
+
     </div>
+
 </body>
 </html>

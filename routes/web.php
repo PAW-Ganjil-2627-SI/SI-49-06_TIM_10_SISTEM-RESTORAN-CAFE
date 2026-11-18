@@ -1,53 +1,60 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MenuController;
 
+// LOGIN: hanya untuk pengunjung yang belum login
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])
+        ->name('login');
 
-Route::get('/', function () {
-    return redirect('/pegawai');
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
-// Rute untuk menampilkan form login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+// BERANDA: bisa diakses semua orang
+Route::get('/', [MenuController::class, 'beranda'])
+    ->name('beranda');
 
-// Rute proses login (Manual check, aman buat password teks biasa di DB)
-Route::post('/login', function (Request $request) {
-    $user = \App\Models\User::where('username', $request->username)->first();
+// ROUTE KHUSUS PENGGUNA YANG SUDAH LOGIN
+Route::middleware('auth')->group(function () {
 
-    if ($user && $user->password === $request->password) {
-        Auth::login($user);
-        $request->session()->regenerate();
-        return redirect()->intended('/pegawai');
-    }
+    Route::get('/dashboard', function () {
+        return redirect()->route('beranda');
+    })->name('dashboard');
 
-    return back()->withErrors([
-        'username' => 'Username atau password salah.',
-    ]);
-})->name('login.proses');
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
 
-// Rute proses logout
-Route::post('/logout', function (Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect('/login');
-})->name('logout');
+    // ADMIN DAN KASIR
+    Route::middleware('role:admin,kasir')->group(function () {
 
+        // READ
+        Route::get('/menu', [MenuController::class, 'index'])
+            ->name('menu.index');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
-    Route::get('/pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
-    Route::post('/pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
-    Route::get('/pegawai/{id}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
-    Route::put('/pegawai/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
-});
+        // CREATE
+        Route::get('/menu/tambah', [MenuController::class, 'create'])
+            ->name('menu.create');
 
+        Route::post('/menu/simpan', [MenuController::class, 'store'])
+            ->name('menu.store');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::delete('/pegawai/{id}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
+        // UPDATE
+        Route::get('/menu/{id}/edit', [MenuController::class, 'edit'])
+            ->whereNumber('id')
+            ->name('menu.edit');
+
+        Route::put('/menu/{id}', [MenuController::class, 'update'])
+            ->whereNumber('id')
+            ->name('menu.update');
+    });
+
+    // KHUSUS ADMIN: DELETE
+    Route::middleware('role:admin')->group(function () {
+        Route::delete('/menu/{id}', [MenuController::class, 'destroy'])
+            ->whereNumber('id')
+            ->name('menu.destroy');
+    });
 });
